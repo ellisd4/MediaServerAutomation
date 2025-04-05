@@ -5,14 +5,15 @@ import json
 import time
 from datetime import timedelta, timezone
 
-# Get the script directory for finding the .env file
+# Get the project root directory for finding the .env file
 script_dir = os.path.dirname(os.path.abspath(__file__))
-env_path = os.path.join(script_dir, '.env')
+project_root = os.path.dirname(os.path.dirname(script_dir))  # Go up two levels to reach project root
+env_path = os.path.join(project_root, '.env')
 
 # Try to import dotenv, provide helpful error message if not available
 try:
     from dotenv import load_dotenv
-    # Load environment variables from .env file in the same directory as this script
+    # Load environment variables from .env file in the project root
     load_dotenv(dotenv_path=env_path)
     print(f"Loaded environment from: {env_path}")
 except ImportError:
@@ -28,7 +29,7 @@ api_key = os.getenv("EMBY_API_KEY")  # Emby API Key Generated in Server Settings
 user_name = os.getenv("EMBY_USER_ID")  # Emby User ID or username
 musicLibraryPartentID = os.getenv("EMBY_MUSIC_LIBRARY_ID")  # Emby Library Parent ID
 playlistName = os.getenv("PLAYLIST_NAME", "Recently Added")  # Default name if not specified in .env
-numberOfDays = int(os.getenv("NUMBER_OF_DAYS"))  # Number of days from today
+numberOfDays = int(os.getenv("NUMBER_OF_DAYS", "90"))  # Number of days from today, with default
 verbose_logging = os.getenv("VERBOSE_LOGGING", "false").lower() == "true"
 max_retries = int(os.getenv("MAX_RETRIES", "3"))
 
