@@ -1,2 +1,3 @@
 .env
 emby_api.json
+.DS_Store
